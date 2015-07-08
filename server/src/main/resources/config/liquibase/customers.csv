@@ -1,5 +1,5 @@
 id;name;physical_address;geo_location;coverage;representative_id
-1;Zynafin;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;-26.69837,27.11922;200;3
-2;Pick & Pay;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;-26.6930299,27.0871844;200;3
-3;Virgin Active;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;-26.6945538,27.0935404;200;4
-4;Mooirivier Mall;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;-26.6991759,27.111689;200;4
+1;Zynafin;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;-26.69837, 27.11922;200;3
+2;NWU;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;37.422611, -122.0840577;200;4
+3;Mooirivier Laerskool;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;-26.6945538, 27.0935404;200;4
+4;Pick & Pay;16 Verdi Street, van der Hoffpark, Potchefstroom, 2531;-26.695663276596207, 27.11258411407470;200;3
