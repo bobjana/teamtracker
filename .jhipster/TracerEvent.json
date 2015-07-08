@@ -1,0 +1,69 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "date",
+            "fieldType": "DateTime",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Date",
+            "fieldNameUnderscored": "date",
+            "fieldInJavaBeanMethod": "Date",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "customerId",
+            "fieldType": "Long",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "CustomerId",
+            "fieldNameUnderscored": "customer_id",
+            "fieldInJavaBeanMethod": "CustomerId",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "representativeId",
+            "fieldType": "Long",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "RepresentativeId",
+            "fieldNameUnderscored": "representative_id",
+            "fieldInJavaBeanMethod": "RepresentativeId",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "type",
+            "fieldType": "String",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Type",
+            "fieldNameUnderscored": "type",
+            "fieldInJavaBeanMethod": "Type",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOwnerOneToOne": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": true,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": true,
+    "fieldsContainDate": false,
+    "changelogDate": "20150708043455",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "validation": true
+}
