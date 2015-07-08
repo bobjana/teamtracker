@@ -1,0 +1,88 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "representative",
+            "relationshipNameCapitalized": "Representative",
+            "relationshipFieldName": "representative",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "User",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Name",
+            "fieldNameUnderscored": "name",
+            "fieldInJavaBeanMethod": "Name",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "5",
+            "fieldValidateRulesMaxlength": "256"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "physicalAddress",
+            "fieldType": "String",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "PhysicalAddress",
+            "fieldNameUnderscored": "physical_address",
+            "fieldInJavaBeanMethod": "PhysicalAddress",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "geoLocation",
+            "fieldType": "String",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "GeoLocation",
+            "fieldNameUnderscored": "geo_location",
+            "fieldInJavaBeanMethod": "GeoLocation",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "coverage",
+            "fieldType": "Integer",
+            "fieldIsEnum": false,
+            "fieldNameCapitalized": "Coverage",
+            "fieldNameUnderscored": "coverage",
+            "fieldInJavaBeanMethod": "Coverage",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "20",
+            "fieldValidateRulesMax": "1000"
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOwnerOneToOne": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": false,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": false,
+    "fieldsContainDate": false,
+    "changelogDate": "20150707191143",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "validation": true
+}

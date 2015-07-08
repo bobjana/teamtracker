@@ -1,0 +1,22 @@
+{
+    "teamtrackerApp": {
+        "customer" : {
+            "home": {
+                "title": "Customers",
+                "createLabel": "Create a new Customer",
+                "createOrEditLabel": "Create or edit a Customer"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Customer {{ id }}?"
+            },
+            "detail": {
+                "title": "Customer"
+            },
+            "name": "Name",
+            "physicalAddress": "PhysicalAddress",
+            "geoLocation": "GeoLocation",
+            "coverage": "Coverage",
+            "representative": "representative"
+        }
+    }
+}

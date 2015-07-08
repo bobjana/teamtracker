@@ -1,0 +1,21 @@
+{
+  "generator-jhipster": {
+    "baseName": "teamtracker",
+    "packageName": "za.co.zynafin.teamtracker",
+    "packageFolder": "za/co/zynafin/teamtracker",
+    "authenticationType": "xauth",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "no",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "gulp",
+    "javaVersion": "8",
+    "enableTranslation": true,
+    "rememberMeKey": "1214637b5e9d3f54456e570579186c57420d69f7"
+  }
+}
