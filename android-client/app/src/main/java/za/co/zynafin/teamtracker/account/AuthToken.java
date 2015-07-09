@@ -1,4 +1,4 @@
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker.account;
 
 public class AuthToken {
 

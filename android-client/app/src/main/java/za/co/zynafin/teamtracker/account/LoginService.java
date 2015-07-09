@@ -1,9 +1,8 @@
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker.account;
 
-import retrofit.Callback;
-import retrofit.http.Body;
 import retrofit.http.POST;
 import retrofit.http.Query;
+import za.co.zynafin.teamtracker.account.AuthToken;
 
 public interface LoginService {
 

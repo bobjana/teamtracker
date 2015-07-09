@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -25,11 +25,11 @@ import com.google.android.gms.location.GeofenceStatusCodes;
 /**
  * Geofence error codes mapped to error messages.
  */
-public class GeofenceErrorMessages {
+public class ErrorCodes {
     /**
      * Prevents instantiation.
      */
-    private GeofenceErrorMessages() {}
+    private ErrorCodes() {}
 
     /**
      * Returns the error string for a geofencing error code.

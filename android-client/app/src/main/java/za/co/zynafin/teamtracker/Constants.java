@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
+
+import za.co.zynafin.teamtracker.account.AuthToken;
 
 /**
  * Constants used in this sample.

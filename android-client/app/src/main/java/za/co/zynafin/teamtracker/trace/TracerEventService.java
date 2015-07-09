@@ -1,8 +1,9 @@
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker.trace;
 
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.POST;
+import za.co.zynafin.teamtracker.trace.TracerEvent;
 
 public interface TracerEventService {
 

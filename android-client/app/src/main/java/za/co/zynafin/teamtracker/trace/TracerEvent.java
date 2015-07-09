@@ -1,10 +1,10 @@
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker.trace;
 
 
 import java.util.Date;
 import java.util.Set;
 
-import static com.google.android.gms.location.sample.geofencing.Constants.BAY_AREA_LANDMARKS;
+import static za.co.zynafin.teamtracker.Constants.BAY_AREA_LANDMARKS;
 
 public class TracerEvent {
 

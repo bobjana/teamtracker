@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker.trace;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -30,10 +30,9 @@ import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
-import com.google.gson.FieldNamingPolicy;
+import za.co.zynafin.teamtracker.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.DateTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +45,11 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
+import za.co.zynafin.teamtracker.Constants;
+import za.co.zynafin.teamtracker.ErrorCodes;
+import za.co.zynafin.teamtracker.R;
+import za.co.zynafin.teamtracker.account.LoginService;
+import za.co.zynafin.teamtracker.core.IsoDateTypeAdapter;
 
 /**
  * Listener for geofence transition changes.
@@ -82,7 +86,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
-            String errorMessage = GeofenceErrorMessages.getErrorString(this,
+            String errorMessage = ErrorCodes.getErrorString(this,
                     geofencingEvent.getErrorCode());
             Log.e(TAG, errorMessage);
             return;

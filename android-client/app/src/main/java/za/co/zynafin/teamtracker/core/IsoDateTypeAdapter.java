@@ -1,4 +1,4 @@
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker.core;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

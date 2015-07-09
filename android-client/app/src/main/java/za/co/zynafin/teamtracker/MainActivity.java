@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.location.sample.geofencing;
+package za.co.zynafin.teamtracker;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -33,9 +33,9 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingApi;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.GeofencingApi;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -44,6 +44,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit.RestAdapter;
+import za.co.zynafin.teamtracker.account.LoginService;
+import za.co.zynafin.teamtracker.sync.SyncUtils;
+import za.co.zynafin.teamtracker.trace.GeofenceTransitionsIntentService;
 
 /**
  * Demonstrates how to create and remove geofences using the GeofencingApi. Uses an IntentService
@@ -149,6 +152,13 @@ public class MainActivity extends ActionBarActivity implements
     protected void onStop() {
         super.onStop();
         mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        //todo: trigger sync of accounts
+//        SyncUtils.triggerSync(this);
     }
 
     /**
@@ -320,7 +330,7 @@ public class MainActivity extends ActionBarActivity implements
             ).show();
         } else {
             // Get the status code for the error and log it using a user-friendly message.
-            String errorMessage = GeofenceErrorMessages.getErrorString(this,
+            String errorMessage = ErrorCodes.getErrorString(this,
                     status.getStatusCode());
             Log.e(TAG, errorMessage);
         }
