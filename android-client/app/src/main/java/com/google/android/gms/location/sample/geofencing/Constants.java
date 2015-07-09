@@ -52,11 +52,14 @@ public final class Constants {
      */
     public static final HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
     static {
-        BAY_AREA_LANDMARKS.put("Zyanfin", new LatLng(-26.69837, 27.11922));
+        BAY_AREA_LANDMARKS.put("Zynafin", new LatLng(-26.69837, 27.11922));
         BAY_AREA_LANDMARKS.put("NWU", new LatLng(37.422611, -122.0840577));
         BAY_AREA_LANDMARKS.put("Mooirivier Laerskool", new LatLng(-26.6945538, 27.0935404));
         BAY_AREA_LANDMARKS.put("Pick & Pay", new LatLng(-26.695663276596207, 27.11258411407470));
     }
 
     protected static final String TAG = "TeamTracker";
+
+
+    public static AuthToken AUTH_TOKEN;
 }

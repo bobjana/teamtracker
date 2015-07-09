@@ -37,15 +37,13 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.GeofencingApi;
 import com.google.android.gms.maps.model.LatLng;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import retrofit.RestAdapter;
 
 /**
  * Demonstrates how to create and remove geofences using the GeofencingApi. Uses an IntentService
@@ -126,7 +124,7 @@ public class MainActivity extends ActionBarActivity implements
         // Kick off the request to build GoogleApiClient.
         buildGoogleApiClient();
 
-        login();
+//        login();
     }
 
 
@@ -246,39 +244,45 @@ public class MainActivity extends ActionBarActivity implements
 
 
     public void getCustomersButtonHandler(View view) throws JSONException {
-        RestClient.get("/api/customers", null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.e(TAG, response.toString());
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d(TAG, response.toString());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e(TAG, "failed1 " + statusCode, throwable);
-            }
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://192.168.43.65:8080")
+                .build();
 
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(TAG, "failed2 " + statusCode, throwable);
-            }
 
-            //
+//        RestClient.get("/api/customers", null, new JsonHttpResponseHandler() {
 //            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
-//                // Pull out the first event on the public timeline
-//                JSONObject firstEvent = timeline.get(0);
-//                String tweetText = firstEvent.getString("text");
-//
-//                // Do something with the response
-//                System.out.println(tweetText);
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                Log.e(TAG, response.toString());
 //            }
-        });
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                Log.d(TAG, response.toString());
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                Log.e(TAG, "failed1 " + statusCode, throwable);
+//            }
+//
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                Log.e(TAG, "failed2 " + statusCode, throwable);
+//            }
+//
+//            //
+////            @Override
+////            public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
+////                // Pull out the first event on the public timeline
+////                JSONObject firstEvent = timeline.get(0);
+////                String tweetText = firstEvent.getString("text");
+////
+////                // Do something with the response
+////                System.out.println(tweetText);
+////            }
+//        });
     }
 
     private void logSecurityException(SecurityException securityException) {
@@ -390,6 +394,10 @@ public class MainActivity extends ActionBarActivity implements
 
 
     private void login() {
-        RestClient.authenticate("admin","admin");
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://192.168.43.65:8080")
+                .build();
+        LoginService service = restAdapter.create(LoginService.class);
+        Constants.AUTH_TOKEN = service.authenticate("admin", "admin");
     }
 }

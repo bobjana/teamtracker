@@ -30,13 +30,22 @@ import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.apache.http.Header;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.DateTypeAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
+import retrofit.Callback;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
 
 /**
  * Listener for geofence transition changes.
@@ -48,6 +57,7 @@ import java.util.List;
 public class GeofenceTransitionsIntentService extends IntentService {
 
     protected static final String TAG = "geofence";
+    private CountDownLatch doneSignal = new CountDownLatch(1);
 
     /**
      * This constructor is required, and calls the super IntentService(String)
@@ -96,27 +106,66 @@ public class GeofenceTransitionsIntentService extends IntentService {
             );
 
 
+            // Send notification and log the transition details.
+            sendNotification(geofenceTransitionDetails);
+            Log.i(TAG, geofenceTransitionDetails);
+
+
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint("http://192.168.43.65:8080")
+                    .build();
+
+            LoginService service = restAdapter.create(LoginService.class);
+            Constants.AUTH_TOKEN = service.authenticate("admin", "admin");
+
+
+            RequestInterceptor requestInterceptor = new RequestInterceptor() {
+                @Override
+                public void intercept(RequestInterceptor.RequestFacade request) {
+                    request.addHeader("x-auth-token", Constants.AUTH_TOKEN.getToken());
+                }
+            };
+
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Date.class, new IsoDateTypeAdapter())
+                    .create();
+
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint("http://192.168.43.65:8080")
+                    .setRequestInterceptor(requestInterceptor)
+                    .setConverter(new GsonConverter(gson))
+                    .build();
+
+            TracerEventService tracerEventService = restAdapter.create(TracerEventService.class);
+
+
             //post to Server
-            Gson gson = new Gson();
+//            Gson gson = new Gson();
             for (Geofence geofence : triggeringGeofences){
-                String content = gson.toJson(new TracerEvent(geofence.getRequestId(), geofenceTransition));
-                RestClient.post("/api/tracerEvents", null, content, new AsyncHttpResponseHandler() {
+                tracerEventService.saveTracerEvent(new TracerEvent(geofence.getRequestId(), geofenceTransition), new Callback() {
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    public void success(Object o, Response response) {
                         Log.i(TAG,"TracerEvent post sucessfull");
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    public void failure(RetrofitError error) {
                         Log.e(TAG,"TracerEvent post failed!!", error);
                     }
                 });
+
             }
+//
+//            try {
+//                doneSignal.await();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            System.out.println("done");
 
 
-            // Send notification and log the transition details.
-            sendNotification(geofenceTransitionDetails);
-            Log.i(TAG, geofenceTransitionDetails);
+
+
 
         } else {
             // Log the error.

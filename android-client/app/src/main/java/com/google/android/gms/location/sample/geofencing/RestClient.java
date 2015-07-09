@@ -36,7 +36,7 @@ public class RestClient {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        client.post(null, getAbsoluteUrl(url), constructHeaders(), httpEntity, "application/json", responseHandler);
+        client.post(null, getAbsoluteUrl(url), null, httpEntity, "application/json", responseHandler);
     }
 
     private static Header[] constructHeaders() {
@@ -62,6 +62,7 @@ public class RestClient {
         RequestParams requestParams = new RequestParams();
         requestParams.add("username", username);
         requestParams.add("password", password);
+        Log.i(Constants.TAG, "About to login...... ");
         client.post(null, getAbsoluteUrl("/api/authenticate"), requestParams, new JsonHttpResponseHandler(){
 
             @Override

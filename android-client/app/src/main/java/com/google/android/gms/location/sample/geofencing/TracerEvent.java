@@ -27,7 +27,7 @@ public class TracerEvent {
         int id = 0;
         for (String key : keys){
             id++;
-            if (customerName.equals(BAY_AREA_LANDMARKS.get(key))){
+            if (customerName.equals(key)){
                 break;
             }
         }
