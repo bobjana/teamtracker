@@ -24,7 +24,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 //import za.co.zyanfin.teamtracker.R;
 //import za.co.zyanfin.teamtracker.events.GeoFenceEvent;
 //import za.co.zyanfin.teamtracker.events.GeofenceRequester;
-//import za.co.zyanfin.teamtracker.events.GeofenceUtils;
+//import za.co.zyanfin.teamtracker.events.Constants;
 //import za.co.zyanfin.teamtracker.sync.SyncService;
 //import za.co.zyanfin.teamtracker.sync.SyncUtils;
 
@@ -52,11 +52,11 @@ public class MainActivity extends Activity {
 //        mBroadcastReceiver = new GeofenceSampleReceiver();
 //
 //        mIntentFilter = new IntentFilter();
-//        mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCES_ADDED);
-//        mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCES_REMOVED);
-//        mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCE_ERROR);
-//        mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCE_TRANSITION);
-//        mIntentFilter.addCategory(GeofenceUtils.CATEGORY_LOCATION_SERVICES);
+//        mIntentFilter.addAction(Constants.ACTION_GEOFENCES_ADDED);
+//        mIntentFilter.addAction(Constants.ACTION_GEOFENCES_REMOVED);
+//        mIntentFilter.addAction(Constants.ACTION_GEOFENCE_ERROR);
+//        mIntentFilter.addAction(Constants.ACTION_GEOFENCE_TRANSITION);
+//        mIntentFilter.addCategory(Constants.CATEGORY_LOCATION_SERVICES);
 //    }
 //
 //
@@ -110,17 +110,17 @@ public class MainActivity extends Activity {
 //    private boolean servicesConnected() {
 //        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 //        if (ConnectionResult.SUCCESS == resultCode) {
-//            Log.d(GeofenceUtils.TAG, getString(R.string.play_services_available));
+//            Log.d(Constants.TAG, getString(R.string.play_services_available));
 //            return true;
 //        } else {
-//            Log.e(GeofenceUtils.TAG, getString(R.string.no_resolution));
+//            Log.e(Constants.TAG, getString(R.string.no_resolution));
 //            //todo: implement dialog notification
 //            // Display an error dialog
 ////            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this, 0);
 ////            if (dialog != null) {
 ////                ErrorDialogFragment errorFragment = new ErrorDialogFragment();
 ////                errorFragment.setDialog(dialog);
-////                errorFragment.show(getSupportFragmentManager(), GeofenceUtils.TAG);
+////                errorFragment.show(getSupportFragmentManager(), Constants.TAG);
 ////            }
 //            return false;
 //        }
@@ -131,16 +131,16 @@ public class MainActivity extends Activity {
 //        @Override
 //        public void onReceive(Context context, Intent intent) {
 //            String action = intent.getAction();
-//            if (TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCE_ERROR)) {
+//            if (TextUtils.equals(action, Constants.ACTION_GEOFENCE_ERROR)) {
 //                handleGeofenceError(context, intent);
 //            } else if (
-//                    TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCES_ADDED) ||
-//                            TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCES_REMOVED)) {
+//                    TextUtils.equals(action, Constants.ACTION_GEOFENCES_ADDED) ||
+//                            TextUtils.equals(action, Constants.ACTION_GEOFENCES_REMOVED)) {
 //                handleGeofenceStatus(context, intent);
-//            } else if (TextUtils.equals(action, GeofenceUtils.ACTION_GEOFENCE_TRANSITION)) {
+//            } else if (TextUtils.equals(action, Constants.ACTION_GEOFENCE_TRANSITION)) {
 //                handleGeofenceTransition(context, intent);
 //            } else {
-//                Log.e(GeofenceUtils.TAG, getString(R.string.invalid_action_detail, action));
+//                Log.e(Constants.TAG, getString(R.string.invalid_action_detail, action));
 //                Toast.makeText(context, R.string.invalid_action, Toast.LENGTH_LONG).show();
 //            }
 //        }
@@ -151,15 +151,15 @@ public class MainActivity extends Activity {
 //        }
 //
 //        private void handleGeofenceTransition(Context context, Intent intent) {
-//            GeoFenceEvent event = (GeoFenceEvent) intent.getSerializableExtra(GeofenceUtils.EXTRA_GEOFENCE_EVENT);
+//            GeoFenceEvent event = (GeoFenceEvent) intent.getSerializableExtra(Constants.EXTRA_GEOFENCE_EVENT);
 //            String msg = String.format("GeoFence %s: %s", event.getTransitionType(), event.getGeoFence());
 ////            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 //            setMessage(msg);
 //        }
 //
 //        private void handleGeofenceError(Context context, Intent intent) {
-//            String msg = intent.getStringExtra(GeofenceUtils.EXTRA_GEOFENCE_STATUS);
-//            Log.e(GeofenceUtils.TAG, msg);
+//            String msg = intent.getStringExtra(Constants.EXTRA_GEOFENCE_STATUS);
+//            Log.e(Constants.TAG, msg);
 //            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 //        }
 //    }

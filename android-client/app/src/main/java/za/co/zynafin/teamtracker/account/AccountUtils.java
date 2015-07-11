@@ -18,9 +18,13 @@ package za.co.zynafin.teamtracker.account;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 
 import za.co.zynafin.teamtracker.R;
@@ -29,6 +33,7 @@ import za.co.zynafin.teamtracker.core.BusinessException;
 public class AccountUtils {
 
     private static Account defaultAccount;
+    private static Context context;
 
     public static Account obtainDefaultAccount(Context context) {
         if (defaultAccount == null) {
@@ -60,6 +65,9 @@ public class AccountUtils {
 
 
 //    private class GetAuthTokenCallback implements AccountManagerCallback<Bundle> {
+//
+//        private static final String TAG = GetAuthTokenCallback.class.getName();
+//
 //        public void run(AccountManagerFuture<Bundle> result) {
 //            Bundle bundle;
 //            try {
@@ -72,7 +80,7 @@ public class AccountUtils {
 //                    _this.setMessage("Token: " + bundle.getString(AccountManager.KEY_AUTHTOKEN));
 //                }
 //            } catch (Exception e) {
-//                _this.setMessage(e.toString());
+//                Log.e(TAG, "Unable to get auth token", e);
 //            }
 //        }
 //    }

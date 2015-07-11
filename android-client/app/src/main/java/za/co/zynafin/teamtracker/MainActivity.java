@@ -17,9 +17,7 @@
 package za.co.zynafin.teamtracker;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,16 +33,10 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingApi;
 import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 import retrofit.RestAdapter;
 import za.co.zynafin.teamtracker.account.AccountUtils;
@@ -101,6 +93,7 @@ public class MainActivity extends ActionBarActivity implements
     // Buttons for kicking off the process of adding or removing geofences.
     private Button mAddGeofencesButton;
     private Button mRemoveGeofencesButton;
+    private Intent syncGeoFencesIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -136,7 +129,9 @@ public class MainActivity extends ActionBarActivity implements
 
 //        login();
 
-        SyncUtils.triggerSync(this);
+//        SyncUtils.triggerSync(this);
+
+
     }
 
 
@@ -174,6 +169,8 @@ public class MainActivity extends ActionBarActivity implements
         super.onStart();
 //        mGoogleApiClient.connect();
         SyncUtils.triggerSync(this);
+
+
     }
 
     @Override
@@ -426,14 +423,5 @@ public class MainActivity extends ActionBarActivity implements
             mAddGeofencesButton.setEnabled(true);
             mRemoveGeofencesButton.setEnabled(false);
         }
-    }
-
-
-    private void login() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://192.168.43.65:8080")
-                .build();
-        LoginService service = restAdapter.create(LoginService.class);
-        Constants.AUTH_TOKEN = service.authenticate("admin", "admin");
     }
 }

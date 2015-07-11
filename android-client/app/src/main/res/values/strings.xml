@@ -51,4 +51,6 @@
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
     <string name="default_google_account_does_not_exist">Account does not exist</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connected">Connected</string>
 </resources>

@@ -114,60 +114,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             sendNotification(geofenceTransitionDetails);
             Log.i(TAG, geofenceTransitionDetails);
 
-
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("http://192.168.43.65:8080")
-                    .build();
-
-            LoginService service = restAdapter.create(LoginService.class);
-            Constants.AUTH_TOKEN = service.authenticate("admin", "admin");
-
-
-            RequestInterceptor requestInterceptor = new RequestInterceptor() {
-                @Override
-                public void intercept(RequestInterceptor.RequestFacade request) {
-                    request.addHeader("x-auth-token", Constants.AUTH_TOKEN.getToken());
-                }
-            };
-
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(Date.class, new IsoDateTypeAdapter())
-                    .create();
-
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("http://192.168.43.65:8080")
-                    .setRequestInterceptor(requestInterceptor)
-                    .setConverter(new GsonConverter(gson))
-                    .build();
-
-            TracerEventService tracerEventService = restAdapter.create(TracerEventService.class);
-
-
-            //post to Server
-//            Gson gson = new Gson();
-            for (Geofence geofence : triggeringGeofences){
-                tracerEventService.saveTracerEvent(new TracerEvent(geofence.getRequestId(), geofenceTransition), new Callback() {
-                    @Override
-                    public void success(Object o, Response response) {
-                        Log.i(TAG,"TracerEvent post sucessfull");
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e(TAG,"TracerEvent post failed!!", error);
-                    }
-                });
-
-            }
-//
-//            try {
-//                doneSignal.await();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            System.out.println("done");
-
-
+            //todo: save tracer events in contentprodiver store
 
 
 

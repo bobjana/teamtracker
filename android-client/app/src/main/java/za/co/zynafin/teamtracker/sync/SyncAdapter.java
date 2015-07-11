@@ -17,7 +17,9 @@
 package za.co.zynafin.teamtracker.sync;
 
 import android.accounts.Account;
-import android.app.PendingIntent;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -27,25 +29,19 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+import za.co.zynafin.teamtracker.Config;
 import za.co.zynafin.teamtracker.Constants;
-import za.co.zynafin.teamtracker.ErrorCodes;
-import za.co.zynafin.teamtracker.trace.GeofenceTransitionsIntentService;
+import za.co.zynafin.teamtracker.account.LoginService;
+import za.co.zynafin.teamtracker.core.RestAdapterFactory;
+import za.co.zynafin.teamtracker.trace.GeofenceRemover;
+import za.co.zynafin.teamtracker.trace.GeofenceRequester;
 
-class SyncAdapter extends AbstractThreadedSyncAdapter implements ConnectionCallbacks, OnConnectionFailedListener, ResultCallback<Status> {
+class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     protected static final String TAG = SyncAdapter.class.getName();
 
@@ -56,139 +52,23 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements ConnectionCallb
         contentResolver = context.getContentResolver();
     }
 
-
-
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.d(TAG,"Syncing data....");
-    }
+        Log.d(TAG,"Syncing data...." + extras);
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        Log.d(TAG,"Connected....");
-    }
+//        RestAdapter restAdapter = RestAdapterFactory.create(getContext(), account);
+//
+//        List<Customer> customers = restAdapter.create(CustomerService.class).list();
+//
+//        System.out.println(customers.size());
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.d(TAG,"Connection suspended....");
-    }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e(TAG,"Connection failed: " + connectionResult.getErrorCode());
-    }
-
-    @Override
-    public void onResult(Status status) {
-        Log.d(TAG, "On Result: " + status.getStatusMessage());
+        new GeofenceRemover(getContext()).run();
+        new GeofenceRequester(getContext()).add(Constants.BAY_AREA_LANDMARKS).run();
     }
 
 
-    //    private PendingIntent geofencePendingIntent;
-//    protected GoogleApiClient googleApiClient;
-//
-//
-//    public SyncAdapter(Context context, boolean autoInitialize) {
-//        super(context, autoInitialize);
-//    }
-//
-//    @Override
-//    public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-//        initGoogleApiClient();
-//
-//
-//    }
-//
-//    private synchronized void initGoogleApiClient() {
-//        googleApiClient = new GoogleApiClient.Builder(getContext())
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .addApi(LocationServices.API)
-//                .build();
-//    }
-//
-//
-//    private void addGeoFences() {
-//        if (!googleApiClient.isConnected()) {
-//            return;
-//        }
-//        Log.d(TAG,"Adding geofences....");
-//        List<Geofence> geoList = new ArrayList<>();
-//        for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
-//            geoList.add(new Geofence.Builder()
-//                    .setRequestId(entry.getKey())
-//                    .setCircularRegion(
-//                            entry.getValue().latitude,
-//                            entry.getValue().longitude,
-//                            Constants.GEOFENCE_RADIUS_IN_METERS
-//                    )
-//                    .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-//                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
-//                    .build());
-//        }
-//
-//        try {
-//            LocationServices.GeofencingApi.addGeofences(googleApiClient, geoList, createGeofencingPendingIntent()).setResultCallback(this); // Result processed in onResult().
-//        } catch (SecurityException securityException) {
-//            logSecurityException(securityException);
-//        }
-//    }
-//
-//    private void removeGeofences() {
-//        if (!googleApiClient.isConnected()) {
-//            return;
-//        }
-//        Log.d(TAG,"Remove geofences....");
-//        try {
-//            LocationServices.GeofencingApi.removeGeofences(
-//                    googleApiClient,
-//                    createGeofencingPendingIntent()
-//            ).setResultCallback(this);
-//        } catch (SecurityException securityException) {
-//            logSecurityException(securityException);
-//        }
-//    }
-//
-//
-//    private PendingIntent createGeofencingPendingIntent() {
-//        if (geofencePendingIntent != null) {
-//            return geofencePendingIntent;
-//        }
-//        Intent intent = new Intent(getContext(), GeofenceTransitionsIntentService.class);
-//        return PendingIntent.getService(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//    }
-//
-//
-//    private void logSecurityException(SecurityException securityException) {
-//        Log.e(TAG, "Invalid location permission. " +
-//                "You need to use ACCESS_FINE_LOCATION with geofences", securityException);
-//    }
-//
-//    @Override
-//    public void onConnected(Bundle connectionHint) {
-//        Log.i(TAG, "Connected to GoogleApiClient");
-//        removeGeofences();
-//        addGeoFences();
-//    }
-//
-//    @Override
-//    public void onConnectionFailed(ConnectionResult result) {
-//        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
-//    }
-//
-//    @Override
-//    public void onConnectionSuspended(int cause) {
-//        Log.i(TAG, "Connection suspended");
-//    }
-//
-//    public void onResult(Status status) {
-//        if (status.isSuccess()) {
-//            Log.d(TAG, "Geo-Fence sub task sucess");
-//        } else {
-//            String errorMessage = ErrorCodes.getErrorString(getContext(), status.getStatusCode());
-//            Log.e(TAG, errorMessage);
-//        }
-//    }
+
 
 
     //    public static final String TAG = "ADAPTER";
