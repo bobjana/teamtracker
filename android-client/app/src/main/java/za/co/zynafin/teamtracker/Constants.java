@@ -30,7 +30,7 @@ public final class Constants {
     private Constants() {
     }
 
-    public static final String PACKAGE_NAME = "com.google.android.gms.location.Geofence";
+    public static final String PACKAGE_NAME = "za.cco.zynafin.teamtracker";
 
     public static final String SHARED_PREFERENCES_NAME = PACKAGE_NAME + ".SHARED_PREFERENCES_NAME";
 

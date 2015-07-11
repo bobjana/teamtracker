@@ -4,12 +4,48 @@ package za.co.zynafin.teamtracker.sync.data;
 //import com.google.common.collect.Maps;
 
 
-public class DataProvider {
-// extends ContentProvider {
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+
+public class DataProvider extends ContentProvider {
+
+    private static final String AUTHORITY = za.co.zynafin.teamtracker.account.Constants.CONTENT_AUTHORITY;
+
+    @Override
+    public boolean onCreate() {
+        return true;
+    }
+
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        return null;
+    }
+
+    @Override
+    public String getType(Uri uri) {
+        return new String();
+    }
+
+    @Override
+    public Uri insert(Uri uri, ContentValues values) {
+        return null;
+    }
+
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        return 0;
+    }
+
+    @Override
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        return 0;
+    }
 
 //	TeamTrackerDatabase teamTrackerDatabase;
 //
-//	private static final String AUTHORITY = Constants.CONTENT_AUTHORITY;
+
 //
 //	// The constants below represent individual URI routes, as IDs. Every URI pattern recognized by
 //	// this ContentProvider is defined using sUriMatcher.addURI(), and associated with one of these

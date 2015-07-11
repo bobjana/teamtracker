@@ -14,7 +14,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(ACTION)) {
             Log.d("BootBroadCastReceiver","Starting team tracker...");
-            za.co.zynafin.teamtracker.sync.SyncUtils.triggerSync(context);
+            SyncUtils.triggerSync(context);
         }
         else{
             Log.v("BootBroadCastReceiver","Some other action not off interest: " + intent.getAction());

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.google.android.gms.location.sample.geofencing"
+        applicationId "za.co.zynafin.teamtracker"
         minSdkVersion 9
         targetSdkVersion 21
         versionCode 1

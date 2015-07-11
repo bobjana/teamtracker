@@ -26,9 +26,6 @@ import android.os.Bundle;
 import za.co.zynafin.teamtracker.R;
 import za.co.zynafin.teamtracker.core.BusinessException;
 
-/**
- * Static helper methods for working with the sync framework.
- */
 public class AccountUtils {
 
     private static Account defaultAccount;
