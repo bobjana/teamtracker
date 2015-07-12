@@ -14,7 +14,7 @@ import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import za.co.zynafin.teamtracker.Config;
-import za.co.zynafin.teamtracker.Constants;
+import za.co.zynafin.teamtracker.account.AccountUtils;
 
 public class RestAdapterFactory {
 
@@ -23,13 +23,16 @@ public class RestAdapterFactory {
     public static RestAdapter create(Context context, Account account) {
         AccountManager mgr = AccountManager.get(context);
         try {
-            final String authToken = mgr.blockingGetAuthToken(account, "", true);
+            Log.d(TAG, "Retrieving auth token for account: " + account.toString());
+            //todo: once oauth2 is introduced, retrieve auth token from google account
+//            final String authToken = mgr.blockingGetAuthToken(account, za.co.zynafin.teamtracker.account.Constants.CONTENT_AUTHORITY, true);
+            final String authToken = AccountUtils.getAuthToken();
             Log.d(TAG, "Auth token retrieved - " + authToken);
 
             RequestInterceptor requestInterceptor = new RequestInterceptor() {
                 @Override
                 public void intercept(RequestInterceptor.RequestFacade request) {
-                    request.addHeader("x-auth-token", Constants.AUTH_TOKEN.getToken());
+                    request.addHeader("x-auth-token", authToken);
                 }
             };
 

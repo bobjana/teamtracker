@@ -28,7 +28,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.GeofencingApi;
 import com.google.android.gms.location.GeofencingRequest;
 
+import retrofit.RestAdapter;
 import za.co.zynafin.teamtracker.account.AccountUtils;
+import za.co.zynafin.teamtracker.core.RestAdapterFactory;
 import za.co.zynafin.teamtracker.sync.SyncUtils;
 
 /**

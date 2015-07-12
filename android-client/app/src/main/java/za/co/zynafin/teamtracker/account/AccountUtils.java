@@ -24,9 +24,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 
+import retrofit.RestAdapter;
+import za.co.zynafin.teamtracker.Config;
 import za.co.zynafin.teamtracker.R;
 import za.co.zynafin.teamtracker.core.BusinessException;
 
@@ -34,13 +37,14 @@ public class AccountUtils {
 
     private static Account defaultAccount;
     private static Context context;
+    private static String authToken;
 
     public static Account obtainDefaultAccount(Context context) {
         if (defaultAccount == null) {
             AccountManager accountMgr = AccountManager.get(context);
             Account[] accounts = accountMgr.getAccounts();
             if (accounts.length == 0) {
-                throw new BusinessException(R.string.default_google_account_does_not_exist,"No accounts present");
+                throw new BusinessException(R.string.default_google_account_does_not_exist, "No accounts present");
             }
             for (Account account : accounts) {
                 if (account.type.equals(Constants.GOOGLE_ACCOUNT_TYPE)) {
@@ -48,19 +52,34 @@ public class AccountUtils {
                     ContentResolver.setIsSyncable(account, Constants.CONTENT_AUTHORITY, 1);
                     ContentResolver.setSyncAutomatically(account, Constants.CONTENT_AUTHORITY, true);
                     ContentResolver.addPeriodicSync(account, Constants.CONTENT_AUTHORITY, new Bundle(), Constants.SYNC_FREQUENCY);
+                    break;
                 }
             }
-            if (defaultAccount == null){
+            if (defaultAccount == null) {
                 throw new BusinessException(R.string.default_google_account_does_not_exist, "Google account does not exist"/*R.string.default_google_account_does_not_exist*/);
             }
         }
         return defaultAccount;
     }
 
-    public static String getAuthToken(){
-        //todo: obtain auth token
-//        accountMgr.getAuthToken(account, "mail", null, false, new GetAuthTokenCallback(), null);
-        throw new RuntimeException("Not yet implemented!!!");
+    public static String getAuthToken() {
+        if (authToken != null) {
+            return authToken;
+        }
+//				final String email = am.getUserData(account,)
+//				final String password = am.getPassword(account);
+        //todo: retrieve username & password from account
+        final String username = "admin";
+        final String password = "admin";
+        if (password != null && username != null) {
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(Config.SERVER_URL)
+                    .build();
+            LoginService service = restAdapter.create(LoginService.class);
+            AuthToken auth = service.authenticate("admin", "admin");
+            authToken = auth.getToken();
+        }
+        return authToken;
     }
 
 

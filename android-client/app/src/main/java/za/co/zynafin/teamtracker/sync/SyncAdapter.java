@@ -17,26 +17,18 @@
 package za.co.zynafin.teamtracker.sync;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.List;
 
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import za.co.zynafin.teamtracker.Config;
 import za.co.zynafin.teamtracker.Constants;
-import za.co.zynafin.teamtracker.account.LoginService;
 import za.co.zynafin.teamtracker.core.RestAdapterFactory;
 import za.co.zynafin.teamtracker.trace.GeofenceRemover;
 import za.co.zynafin.teamtracker.trace.GeofenceRequester;
@@ -56,11 +48,11 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(TAG,"Syncing data...." + extras);
 
-//        RestAdapter restAdapter = RestAdapterFactory.create(getContext(), account);
-//
-//        List<Customer> customers = restAdapter.create(CustomerService.class).list();
-//
-//        System.out.println(customers.size());
+        RestAdapter restAdapter = RestAdapterFactory.create(getContext(), account);
+
+        List<Customer> customers = restAdapter.create(CustomerService.class).list();
+
+        Log.d(TAG, "--------Customer size: " + customers.size());
 
 
         new GeofenceRemover(getContext()).run();
@@ -68,22 +60,6 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-
-
-
-    //    public static final String TAG = "ADAPTER";
-//    private final ContentResolver mContentResolver;
-//    private RestTemplate restTemplate = new RestTemplate();
-//    private GeofenceRequester mGeofenceRequester;
-//    private GeofenceRemover mGeofenceRemover;
-//
-//    public SyncAdapter(Context context, boolean autoInitialize) {
-//        super(context, autoInitialize);
-//        mContentResolver = context.getContentResolver();
-//        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//        mGeofenceRequester = new GeofenceRequester(context);
-//        mGeofenceRemover = new GeofenceRemover(context);
-//    }
 //
 //    @Override
 //    public void onPerformSync(Account account, Bundle extras, String authority,

@@ -45,8 +45,6 @@ public class AccountService extends Service {
 
 
 
-
-
 	public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
 		private Context context;
@@ -92,7 +90,7 @@ public class AccountService extends Service {
 		public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse,
 		                           Account account, String authTokenType, Bundle bundle)
 			throws NetworkErrorException {
-
+			Log.d(TAG, "Get Auth token for account: " + account.toString() + ", auth toke type: " + authTokenType);
 			final AccountManager am = AccountManager.get(context);
 
 			String authToken = am.peekAuthToken(account, authTokenType);
