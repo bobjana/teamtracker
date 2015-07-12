@@ -6,16 +6,16 @@ import java.util.Set;
 
 import static za.co.zynafin.teamtracker.Constants.BAY_AREA_LANDMARKS;
 
-public class TracerEvent {
+public class Trace {
 
     private Date date;
     private String type;
-    private Long customerId;
+    private long customerId;
 
-    public TracerEvent() {
+    public Trace() {
     }
 
-    public TracerEvent(String customerName, int transistionType){
+    public Trace(String customerName, int transistionType){
         this.date = new Date();
         this.customerId = deriveCustomerId(customerName);
         this.type = transistionType==1?"ENTER":"EXIT";
@@ -50,11 +50,11 @@ public class TracerEvent {
         this.type = type;
     }
 
-    public Long getCustomerId() {
+    public long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(long customerId) {
         this.customerId = customerId;
     }
 }

@@ -1,4 +1,4 @@
-package za.co.zynafin.teamtracker.sync;
+package za.co.zynafin.teamtracker.customer;
 
 public class Customer {
 

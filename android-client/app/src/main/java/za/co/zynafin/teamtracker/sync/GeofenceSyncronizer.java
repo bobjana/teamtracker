@@ -1,4 +1,4 @@
-package za.co.zynafin.teamtracker.trace;
+package za.co.zynafin.teamtracker.sync;
 
 
 import android.app.Activity;
@@ -18,6 +18,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationStatusCodes;
 
 import za.co.zynafin.teamtracker.R;
+import za.co.zynafin.teamtracker.trace.Constants;
+import za.co.zynafin.teamtracker.trace.GeofenceTransitionsIntentService;
 
 public abstract class GeofenceSyncronizer implements
         GoogleApiClient.ConnectionCallbacks,
@@ -149,7 +151,7 @@ public abstract class GeofenceSyncronizer implements
 
         if (status.getStatusCode() == LocationStatusCodes.SUCCESS) {
             Log.d(Constants.TAG, requestType + " geofences was successfully performed");
-
+            Log.d(Constants.TAG, status.toString());
             broadcastIntent.setAction(requestType.name());
         } else {
             Log.e(Constants.TAG, requestType + " Failed: " + status.getStatusCode());

@@ -1,10 +1,12 @@
-package za.co.zynafin.teamtracker.sync;
+package za.co.zynafin.teamtracker.core;
 
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import za.co.zynafin.teamtracker.sync.SyncUtils;
 
 public class BootBroadcastReceiver extends BroadcastReceiver {
 

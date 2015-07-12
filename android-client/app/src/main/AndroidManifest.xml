@@ -36,7 +36,7 @@ limitations under the License.
         </activity>
 
         <provider
-            android:name=".sync.data.DataProvider"
+            android:name=".content.TeamTrackerProvider"
             android:authorities="za.co.zynafin.teamtracker"
             android:exported="true"
             android:syncable="true"/>
