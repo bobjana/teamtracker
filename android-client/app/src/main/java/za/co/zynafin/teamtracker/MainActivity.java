@@ -1,124 +1,91 @@
-/**
- * Copyright 2014 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package za.co.zynafin.teamtracker;
 
-import android.accounts.Account;
 import android.app.PendingIntent;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ListView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.GeofencingApi;
-import com.google.android.gms.location.GeofencingRequest;
-
-import retrofit.RestAdapter;
-import za.co.zynafin.teamtracker.account.AccountUtils;
-import za.co.zynafin.teamtracker.core.RestAdapterFactory;
+import za.co.zynafin.teamtracker.content.TeamTrackerDbHelper;
+import za.co.zynafin.teamtracker.content.TeamTrackerProvider;
 import za.co.zynafin.teamtracker.sync.SyncUtils;
 
-/**
- * Demonstrates how to create and remove geofences using the GeofencingApi. Uses an IntentService
- * to monitor geofence transitions and creates notifications whenever a device enters or exits
- * a geofence.
- *
- * This sample requires a device's Location settings to be turned on. It also requires
- * the ACCESS_FINE_LOCATION permission, as specified in AndroidManifest.xml.
- *
- * Note that this Activity implements ResultCallback<Status>, requiring that
- * {@code onResult} must be defined. The {@code onResult} runs when the result of calling
- * {@link GeofencingApi#addGeofences(GoogleApiClient, GeofencingRequest, PendingIntent)}  addGeofences()} or
- * {@link com.google.android.gms.location.GeofencingApi#removeGeofences(GoogleApiClient, java.util.List)}  removeGeofences()}
- * becomes available.
- */
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     protected static final String TAG = MainActivity.class.getName();
 
-    private Account mAccount;
-
-    /**
-     * Provides the entry point to Google Play services.
-     */
-//    protected GoogleApiClient mGoogleApiClient;
-
-    /**
-     * The list of geofences used in this sample.
-     */
-//    protected ArrayList<Geofence> mGeofenceList;
-
-    /**
-     * Used to keep track of whether geofences were added.
-     */
-    private boolean mGeofencesAdded;
-
-    /**
-     * Used when requesting to add or remove geofences.
-     */
     private PendingIntent mGeofencePendingIntent;
-
-    /**
-     * Used to persist application state about whether geofences were added.
-     */
     private SharedPreferences mSharedPreferences;
 
-    // Buttons for kicking off the process of adding or removing geofences.
-    private Button mAddGeofencesButton;
-    private Button mRemoveGeofencesButton;
-    private Intent syncGeoFencesIntent;
+
+    private SimpleCursorAdapter adapter;
+    private ListView listView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        // Get the UI widgets.
-        mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
-        mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
+        listView = (ListView) findViewById(R.id.customer_list_view);
 
-        // Empty list for storing geofences.
-//        mGeofenceList = new ArrayList<Geofence>();
+        adapter = new SimpleCursorAdapter(getBaseContext(),
+                R.layout.customer_list_view,
+                null,
+                new String[] { TeamTrackerDbHelper.CUSTOMER_NAME_COLUMN, TeamTrackerDbHelper.CUSTOMER_GEOLOCATION_COLUMN},
+                new int[] { R.id.customer_name , R.id.customer_geoLocation }, 0);
 
-        // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
-        mGeofencePendingIntent = null;
+        listView.setAdapter(adapter);
 
-        // Retrieve an instance of the SharedPreferences object.
-        mSharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME,
-                MODE_PRIVATE);
-
-        // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
-        mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
-        setButtonsEnabledState();
-
-        mAccount = AccountUtils.obtainDefaultAccount(this);
+        getSupportLoaderManager().initLoader(0, null, this);
 
         SyncUtils.triggerSync(this);
-
     }
 
-    private void setButtonsEnabledState() {
-        if (mGeofencesAdded) {
-            mAddGeofencesButton.setEnabled(false);
-            mRemoveGeofencesButton.setEnabled(true);
-        } else {
-            mAddGeofencesButton.setEnabled(true);
-            mRemoveGeofencesButton.setEnabled(false);
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.sync:
+                SyncUtils.triggerSync(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri uri = TeamTrackerProvider.CUSTOMER_URI;
+        return new CursorLoader(this, uri, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 }

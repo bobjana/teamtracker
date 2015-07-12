@@ -17,9 +17,14 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import za.co.zynafin.teamtracker.customer.Customer;
+import za.co.zynafin.teamtracker.trace.Trace;
+
+import static za.co.zynafin.teamtracker.content.TeamTrackerDbHelper.*;
 
 public class TeamTrackerProviderClient {
 
@@ -137,13 +142,11 @@ public class TeamTrackerProviderClient {
         return cr.delete(rowAddress, null, null);
     }
 
-    public static int removeAllTracer(Context c) {
-        ContentResolver cr = c.getContentResolver();
-        return cr.delete(TeamTrackerProvider.TRACER_URI, null, null);
+    public static int removeAllTracer(ContentProviderClient c) throws RemoteException {
+        return c.delete(TeamTrackerProvider.TRACER_URI, null, null);
     }
 
-    public static Cursor getAllTracer(Context c) {
-        ContentResolver cr = c.getContentResolver();
+    public static List<Trace> listAllTracers(ContentProviderClient c) throws RemoteException {
         String[] resultColumns = new String[]{
                 TeamTrackerProvider.ROW_ID,
                 TeamTrackerProvider.TRACER_CUSTOMERID_COLUMN,
@@ -151,8 +154,15 @@ public class TeamTrackerProviderClient {
                 TeamTrackerProvider.TRACER_DATE_COLUMN
         };
 
-        Cursor resultCursor = cr.query(TeamTrackerProvider.TRACER_URI, resultColumns, null, null, null);
-        return resultCursor;
+        Cursor resultCursor = c.query(TeamTrackerProvider.TRACER_URI, resultColumns, null, null, null);
+        List<Trace> result = new ArrayList<>();
+        while (resultCursor.moveToNext()){
+            Trace trace = new Trace(resultCursor.getLong(TRACER_CUSTOMERID_COLUMN_POSITION),
+                    resultCursor.getString(TRACER_TYPE_COLUMN_POSITION),
+                    new Date(resultCursor.getInt(TRACER_DATE_COLUMN_POSITION)));
+            result.add(trace);
+        }
+        return result;
     }
 
     public static Cursor getTracer(long rowId, Context c) {

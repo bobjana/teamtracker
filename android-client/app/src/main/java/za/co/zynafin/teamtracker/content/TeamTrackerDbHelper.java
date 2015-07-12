@@ -65,7 +65,7 @@ public class TeamTrackerDbHelper {
     
     
     // -------------- TRACER DEFINITIONS ------------
-    public static final String TRACER_TABLE = "Trace";
+    public static final String TRACER_TABLE = "Tracer";
     
     public static final String TRACER_CUSTOMERID_COLUMN = "customerId";
     public static final int TRACER_CUSTOMERID_COLUMN_POSITION = 1;
@@ -92,7 +92,7 @@ public class TeamTrackerDbHelper {
                                 CUSTOMER_COVERAGE_COLUMN + " integer" +
                                 ")";
     
-    // Trace CREATION
+    // Tracer CREATION 
     private static final String DATABASE_TRACER_CREATE = "create table " + TRACER_TABLE + " (" +
                                 "_id integer primary key autoincrement, " +
                                 TRACER_CUSTOMERID_COLUMN + " integer, " +
@@ -159,7 +159,7 @@ public class TeamTrackerDbHelper {
         return res;
     }
     
-    // ----------------Trace HELPERS --------------------
+    // ----------------Tracer HELPERS -------------------- 
     public long addTracer (long customerId, String type, Date date) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TRACER_CUSTOMERID_COLUMN, customerId);

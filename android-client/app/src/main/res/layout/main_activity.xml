@@ -19,20 +19,12 @@
     android:layout_height="match_parent"
     android:padding="@dimen/layout_padding">
 
-    <Button
-        android:id="@+id/add_geofences_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:onClick="addGeofencesButtonHandler"
-        android:text="@string/add_geofences" />
 
-    <Button
-        android:id="@+id/remove_geofences_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:onClick="removeGeofencesButtonHandler"
-        android:text="@string/remove_geofences" />
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/customer_list_view"
+        tools:context=".MainActivity"  />
 
 </RelativeLayout>

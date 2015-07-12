@@ -2,9 +2,7 @@ package za.co.zynafin.teamtracker.trace;
 
 
 import java.util.Date;
-import java.util.Set;
 
-import static za.co.zynafin.teamtracker.Constants.BAY_AREA_LANDMARKS;
 
 public class Trace {
 
@@ -15,23 +13,10 @@ public class Trace {
     public Trace() {
     }
 
-    public Trace(String customerName, int transistionType){
-        this.date = new Date();
-        this.customerId = deriveCustomerId(customerName);
-        this.type = transistionType==1?"ENTER":"EXIT";
-    }
-
-    private Long deriveCustomerId(String customerName) {
-        //Hack to derive LONG customer ids from Names
-        Set<String> keys = BAY_AREA_LANDMARKS.keySet();
-        int id = 0;
-        for (String key : keys){
-            id++;
-            if (customerName.equals(key)){
-                break;
-            }
-        }
-        return new Long(id);
+    public Trace(long customerId,  String type, Date date){
+        this.customerId = customerId;
+        this.type = type;
+        this.date = date;
     }
 
     public Date getDate() {
@@ -56,5 +41,14 @@ public class Trace {
 
     public void setCustomerId(long customerId) {
         this.customerId = customerId;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "date=" + date +
+                ", type='" + type + '\'' +
+                ", customerId=" + customerId +
+                '}';
     }
 }

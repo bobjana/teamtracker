@@ -28,7 +28,7 @@ public class TeamTrackerProvider extends ContentProvider {
 
     // --------------- URIS --------------------
     public static final Uri CUSTOMER_URI = Uri.parse("content://za.co.zynafin.teamtracker/Customer");
-    public static final Uri TRACER_URI = Uri.parse("content://za.co.zynafin.teamtracker/Trace");
+    public static final Uri TRACER_URI = Uri.parse("content://za.co.zynafin.teamtracker/Tracer");
     
     // -------------- CUSTOMER DEFINITIONS ------------
     public static final String CUSTOMER_TABLE = "Customer";
@@ -48,7 +48,7 @@ public class TeamTrackerProvider extends ContentProvider {
 
     
     // -------------- TRACER DEFINITIONS ------------
-    public static final String TRACER_TABLE = "Trace";
+    public static final String TRACER_TABLE = "Tracer";
 
     public static final String TRACER_CUSTOMERID_COLUMN = "customerId";
     public static final int TRACER_CUSTOMERID_COLUMN_POSITION = 1;
@@ -71,8 +71,8 @@ public class TeamTrackerProvider extends ContentProvider {
         uriMatcher.addURI("za.co.zynafin.teamtracker", "Customer", ALL_CUSTOMER);
         uriMatcher.addURI("za.co.zynafin.teamtracker", "Customer/#", SINGLE_CUSTOMER);
     
-        uriMatcher.addURI("za.co.zynafin.teamtracker", "Trace", ALL_TRACER);
-        uriMatcher.addURI("za.co.zynafin.teamtracker", "Trace/#", SINGLE_TRACER);
+        uriMatcher.addURI("za.co.zynafin.teamtracker", "Tracer", ALL_TRACER);
+        uriMatcher.addURI("za.co.zynafin.teamtracker", "Tracer/#", SINGLE_TRACER);
     }
  
 
@@ -88,7 +88,7 @@ public class TeamTrackerProvider extends ContentProvider {
                                 CUSTOMER_COVERAGE_COLUMN + " integer" +
                                 ")";
     
-    // Trace CREATION
+    // Tracer CREATION 
     private static final String DATABASE_TRACER_CREATE = "create table " + TRACER_TABLE + " (" +
                                 "_id integer primary key autoincrement, " +
                                 TRACER_CUSTOMERID_COLUMN + " integer, " +
@@ -191,9 +191,9 @@ public class TeamTrackerProvider extends ContentProvider {
             case SINGLE_CUSTOMER:
                 return "vnd.android.cursor.dir/vnd.za.co.zynafin.teamtracker.content.Customer";
             case ALL_TRACER:
-                return "vnd.android.cursor.dir/vnd.za.co.zynafin.teamtracker.content.Trace";
+                return "vnd.android.cursor.dir/vnd.za.co.zynafin.teamtracker.content.Tracer";
             case SINGLE_TRACER:
-                return "vnd.android.cursor.dir/vnd.za.co.zynafin.teamtracker.content.Trace";
+                return "vnd.android.cursor.dir/vnd.za.co.zynafin.teamtracker.content.Tracer";
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
             }
