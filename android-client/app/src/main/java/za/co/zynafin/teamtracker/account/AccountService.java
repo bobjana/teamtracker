@@ -106,7 +106,7 @@ public class AccountService extends Service {
 				final String password = "admin";
 				if (password != null && username != null) {
 					RestAdapter restAdapter = new RestAdapter.Builder()
-							.setEndpoint("http://192.168.43.65:8080")
+							.setEndpoint(Config.SERVER_URL)
 							.build();
 					LoginService service = restAdapter.create(LoginService.class);
 					AuthToken auth = service.authenticate("admin", "admin");
