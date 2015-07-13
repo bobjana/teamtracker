@@ -21,14 +21,13 @@ public class RestAdapterFactory {
     private static final String TAG = RestAdapterFactory.class.getName();
 
     public static RestAdapter create(Context context, Account account) {
-        AccountManager mgr = AccountManager.get(context);
-        try {
-            Log.d(TAG, "Retrieving auth token for account: " + account.toString());
-            //todo: once oauth2 is introduced, retrieve auth token from google account
+        //todo: once oauth2 is introduced, retrieve auth token from google account
+//        AccountManager mgr = AccountManager.get(context);
 //            final String authToken = mgr.blockingGetAuthToken(account, za.co.zynafin.teamtracker.account.Constants.CONTENT_AUTHORITY, true);
+        Log.d(TAG, "Creating rest adapter for: " + Config.SERVER_URL);
+        try {
             final String authToken = AccountUtils.getAuthToken();
             Log.d(TAG, "Auth token retrieved - " + authToken);
-
             RequestInterceptor requestInterceptor = new RequestInterceptor() {
                 @Override
                 public void intercept(RequestInterceptor.RequestFacade request) {
@@ -46,8 +45,8 @@ public class RestAdapterFactory {
                     .setConverter(new GsonConverter(gson))
                     .build();
         } catch (Exception e) {
-            Log.e(TAG, "Unable to retrieve auth token", e);
-            throw new RuntimeException("Unable to create rest adapter", e);
+            Log.w(TAG, "Unable to create rest adapter", e);
+            return new RestAdapter.Builder().build();
         }
 
     }

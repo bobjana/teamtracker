@@ -133,7 +133,10 @@ public class TeamTrackerProviderClient {
         contentValues.put(TeamTrackerProvider.TRACER_TYPE_COLUMN, type);
         contentValues.put(TeamTrackerProvider.TRACER_DATE_COLUMN, date.getTime());
         ContentResolver cr = c.getContentResolver();
-        return cr.insert(TeamTrackerProvider.TRACER_URI, contentValues);
+
+        Uri insert = cr.insert(TeamTrackerProvider.TRACER_URI, contentValues);
+        Log.d(TAG, "Added trace to DB: " + insert);
+        return insert;
     }
 
     public static int removeTracer(long rowIndex, Context c) {

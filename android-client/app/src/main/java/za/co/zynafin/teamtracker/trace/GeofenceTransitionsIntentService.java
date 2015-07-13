@@ -16,6 +16,7 @@
 
 package za.co.zynafin.teamtracker.trace;
 
+import android.accounts.AccountManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -49,6 +50,7 @@ import za.co.zynafin.teamtracker.Constants;
 import za.co.zynafin.teamtracker.ErrorCodes;
 import za.co.zynafin.teamtracker.R;
 import za.co.zynafin.teamtracker.account.LoginService;
+import za.co.zynafin.teamtracker.content.TeamTrackerProviderClient;
 import za.co.zynafin.teamtracker.core.IsoDateTypeAdapter;
 
 /**
@@ -109,14 +111,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     triggeringGeofences
             );
 
-
             // Send notification and log the transition details.
             sendNotification(geofenceTransitionDetails);
             Log.i(TAG, geofenceTransitionDetails);
 
-            //todo: save tracer events in contentprodiver store
-
-
+            for (Geofence geofence : triggeringGeofences) {
+                TeamTrackerProviderClient.addTracer(new Long(geofence.getRequestId()),
+                    getTransitionString(geofenceTransition), new Date(), this);
+            }
 
         } else {
             // Log the error.

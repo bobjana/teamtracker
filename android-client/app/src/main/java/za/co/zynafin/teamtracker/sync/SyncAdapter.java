@@ -12,12 +12,17 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import za.co.zynafin.teamtracker.Config;
 import za.co.zynafin.teamtracker.content.TeamTrackerProviderClient;
 import za.co.zynafin.teamtracker.core.RestAdapterFactory;
 import za.co.zynafin.teamtracker.customer.Customer;
@@ -35,11 +40,19 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.d(TAG, "Syncing data...." + extras);
+        Log.d(TAG, "Start Sync...." + extras);
+
+        if (!serverAvailable()) {
+            Log.w(TAG, String.format("Unable to sync to server '%s' as connection to server is currently unavailable", Config.SERVER_URL));
+            return;
+        }
 
         syncFromServer(account, provider);
         syncToServer(account, provider);
+
+        Log.d(TAG, "Sync completed");
     }
+
 
     private void syncToServer(Account account, final ContentProviderClient provider) {
         try {
@@ -82,7 +95,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
             geofenceRequester.run();
         } catch (RemoteException e) {
-            Log.e(TAG,"Unable to syncFromServer", e);
+            Log.e(TAG, "Unable to syncFromServer", e);
         }
     }
 
@@ -91,4 +104,16 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         return new LatLng(new Double(parts[0]), new Double(parts[1]));
     }
 
+
+    private boolean serverAvailable() {
+        try {
+            URL myUrl = new URL(Config.SERVER_URL);
+            URLConnection connection = myUrl.openConnection();
+            connection.setConnectTimeout(10000);
+            connection.connect();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 }

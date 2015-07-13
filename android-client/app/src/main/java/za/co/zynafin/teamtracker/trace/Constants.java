@@ -63,17 +63,6 @@ public final class Constants {
 
     public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
-    public static String getTransitionString(int transitionType) {
-        switch (transitionType) {
-            case Geofence.GEOFENCE_TRANSITION_ENTER:
-                return "ENTER";
-            case Geofence.GEOFENCE_TRANSITION_EXIT:
-                return "EXIT";
-            case Geofence.GEOFENCE_TRANSITION_DWELL:
-                return "DWELL";
-            default:
-                return "UNKNOWN";
-        }
-    }
+
 
 }
