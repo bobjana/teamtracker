@@ -61,7 +61,7 @@
                         <div class="form-group">
                             <label translate="teamtrackerApp.customer.coverage">Coverage</label>
                             <input type="number" class="form-control" name="coverage"
-                                   ng-model="customer.coverage" required min="20" max="1000">
+                                   ng-model="customer.coverage" required min="20" max="1000" ng-change="reposition()"  ng-model-options="{ debounce: 500 }">
 
                             <div ng-show="editForm.coverage.$invalid">
                                 <p class="help-block"
@@ -92,7 +92,7 @@
                         <div class="form-group">
                             <label translate="teamtrackerApp.customer.geoLocation">GeoLocation</label>
                             <input type="text" class="form-control" name="geoLocation"
-                                   ng-model="customer.geoLocation" required>
+                                   ng-model="customer.geoLocation" required  ng-model-options="{ debounce: 500 }" ng-change="reposition()">
 
                             <div ng-show="editForm.geoLocation.$invalid">
                                 <p class="help-block"
