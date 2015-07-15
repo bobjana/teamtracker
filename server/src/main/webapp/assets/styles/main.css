@@ -145,3 +145,6 @@ ul#strengthBar {
     width:20px;
 }
 /* end Password strength bar style */
+
+
+map, div[map] {display:block; width:100%; height:350px;}
