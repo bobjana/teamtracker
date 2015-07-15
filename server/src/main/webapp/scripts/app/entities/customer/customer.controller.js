@@ -41,10 +41,7 @@ angular.module('teamtrackerApp')
 
 
             $('#saveCustomerModal').on('shown.bs.modal', function (e) {
-                google.maps.event.trigger($scope.map, 'resize');
-                initMarker($scope);
-                initCoverageArea($scope);
-                $scope.reposition();
+                initMap();
             })
 
 
@@ -93,12 +90,6 @@ angular.module('teamtrackerApp')
         };
 
 
-        $scope.updateCoverageAndLocation = function () {
-            $scope.coverageArea.setRadius(Number($scope.customer.covcerage));
-            $scope.coverageArea.setCenter($scope.location);
-            $scope.marker.setPosition($scope.location);
-        };
-
         $scope.reposition = function(){
             var loc = $scope.customer.geoLocation.split(',');
             var location = new google.maps.LatLng(loc[0], loc[1]);
@@ -132,6 +123,26 @@ angular.module('teamtrackerApp')
                 };
                 $scope.coverageArea = new google.maps.Circle(circleOptions);
             }
+        }
+
+
+        function initMap() {
+            google.maps.event.trigger($scope.map, 'resize');
+            initMarker($scope);
+            initCoverageArea($scope);
+
+            google.maps.event.addListener($scope.marker, 'drag', function(event) {
+                $scope.coverageArea.setRadius(0);
+            });
+
+            google.maps.event.addListener($scope.marker, 'dragend', function(event) {
+                var location = event.latLng.lat() + ", " + event.latLng.lng();
+                $scope.customer.geoLocation = location;
+                $scope.$apply();
+                $scope.reposition();
+            });
+
+            $scope.reposition();
         }
 
     });
