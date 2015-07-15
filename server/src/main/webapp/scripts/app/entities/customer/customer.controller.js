@@ -84,9 +84,24 @@ angular.module('teamtrackerApp')
         };
 
         $scope.clear = function () {
-            $scope.customer = {name: null, physicalAddress: null, geoLocation: null, coverage: null, id: null};
+
+            var pos = "-29.118235, 26.209712";
+
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    console.log("geo: " + position.coords.latitude);
+                    $scope.customer.geoLocation = position.coords.latitude + ", " + position.coords.longitude;
+                });
+            }
+
+
+            $scope.customer = {name: null, physicalAddress: null, geoLocation: null, coverage: 100, id: null};
             $scope.editForm.$setPristine();
             $scope.editForm.$setUntouched();
+
+            $('#saveCustomerModal').on('shown.bs.modal', function (e) {
+                initMap();
+            })
         };
 
 
