@@ -89,7 +89,6 @@ angular.module('teamtrackerApp')
 
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    console.log("geo: " + position.coords.latitude);
                     $scope.customer.geoLocation = position.coords.latitude + ", " + position.coords.longitude;
                 });
             }
@@ -106,6 +105,9 @@ angular.module('teamtrackerApp')
 
 
         $scope.reposition = function(){
+            if ($scope.customer.geoLocation == null || $scope.customer.geoLocation.length < 3 || $scope.customer.geoLocation.indexOf(',') == -1){
+                return;
+            }
             var loc = $scope.customer.geoLocation.split(',');
             var location = new google.maps.LatLng(loc[0], loc[1]);
 
@@ -113,6 +115,12 @@ angular.module('teamtrackerApp')
             $scope.map.setCenter(location);
             $scope.coverageArea.setCenter(location);
             $scope.coverageArea.setRadius(Number($scope.customer.coverage));
+        }
+
+        $scope.upateGeoLocation = function(){
+            $scope.customer.geoLocation =  this.getPlace().geometry.location.A + ", " + this.getPlace().geometry.location.F;
+            $scope.$apply();
+            $scope.reposition();
         }
 
 
