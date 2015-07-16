@@ -428,22 +428,6 @@
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>com.alexecollins.docker</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>2.9.0</version>
-                <dependencies>
-                    <!--<dependency>-->
-                    <!--&lt;!&ndash; set-up port forwarding if you're using boot2docker &ndash;&gt;-->
-                    <!--<groupId>com.alexecollins.docker</groupId>-->
-                    <!--<artifactId>docker-java-orchestration-plugin-boot2docker</artifactId>-->
-                    <!--<version>???</version>-->
-                    <!--</dependency>-->
-                </dependencies>
-                <configuration>
-                    <host>${docker.url}</host>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>com.google.code.sortpom</groupId>
                 <artifactId>maven-sortpom-plugin</artifactId>
                 <version>${maven-sortpom-plugin.version}</version>
@@ -716,18 +700,6 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </dependency>
             </dependencies>
-        </profile>
-
-        <profile>
-            <id>docker-ci</id>
-            <activation>
-                <property>
-                    <name>docker.io.url</name>
-                </property>
-            </activation>
-            <properties>
-                <docker.url>${docker.io.url}</docker.url>
-            </properties>
         </profile>
 
     </profiles>
