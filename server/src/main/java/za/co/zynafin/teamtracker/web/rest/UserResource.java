@@ -1,20 +1,22 @@
 package za.co.zynafin.teamtracker.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import za.co.zynafin.teamtracker.domain.User;
-import za.co.zynafin.teamtracker.repository.UserRepository;
-import za.co.zynafin.teamtracker.security.AuthoritiesConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import za.co.zynafin.teamtracker.domain.Authority;
+import za.co.zynafin.teamtracker.domain.User;
+import za.co.zynafin.teamtracker.repository.AuthorityRepository;
+import za.co.zynafin.teamtracker.repository.UserRepository;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,6 +31,9 @@ public class UserResource {
     @Inject
     private UserRepository userRepository;
 
+    @Inject
+    private AuthorityRepository authorityRepository;
+
     /**
      * GET  /users -> get all users.
      */
@@ -38,7 +43,10 @@ public class UserResource {
     @Timed
     public List<User> getAll() {
         log.debug("REST request to get all Users");
-        return userRepository.findAll();
+
+        List<Authority> authorities = Arrays.asList(new Authority[]{authorityRepository.findOne("ROLE_ANDROID_USER")});
+        return userRepository.findByAuthorities(authorities);
+//        return userRepository.findAll();
     }
 
     /**

@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label translate="teamtrackerApp.customer.representative">representative</label>
+                            <label translate="teamtrackerApp.customer.representative">Representative</label>
                             <select class="form-control" name="representative" ng-model="customer.representativeId" ng-options="user.id as user.login for user in users">
                             </select>
                         </div>
@@ -157,7 +157,7 @@
                     <th translate="teamtrackerApp.customer.physicalAddress">PhysicalAddress</th>
                     <th translate="teamtrackerApp.customer.geoLocation">GeoLocation</th>
                     <th translate="teamtrackerApp.customer.coverage">Coverage</th>
-                    <th translate="teamtrackerApp.customer.representative">representative</th>
+                    <th translate="teamtrackerApp.customer.representative">Representative</th>
                     <th></th>
                 </tr>
             </thead>
@@ -170,11 +170,6 @@
                     <td>{{customer.coverage}}</td>
                     <td>{{customer.representativeLogin}}</td>
                     <td>
-                        <button type="submit"
-                                ui-sref="customerDetail({id:customer.id})"
-                                class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
-                        </button>
                         <button type="submit"
                                 ng-click="showUpdate(customer.id)"
                                 class="btn btn-primary btn-sm">
