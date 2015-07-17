@@ -117,4 +117,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
     }
+
+    public static void main(String[] args) {
+        System.out.println(new BCryptPasswordEncoder().encode("!q<[utvXXz@A5n>g"));
+    }
 }

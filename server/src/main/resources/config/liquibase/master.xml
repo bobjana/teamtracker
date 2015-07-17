@@ -9,3 +9,5 @@
     <include file="classpath:config/liquibase/changelog/20150708043455_added_entity_TracerEvent.xml" relativeToChangelogFile="false"/>
     <!-- JHipster will add liquibase changelogs here -->
 </databaseChangeLog>
+
+    <!--Admin Password: !q<[utvXXz@A5n>g-->
